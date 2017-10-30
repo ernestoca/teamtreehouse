@@ -1,8 +1,29 @@
+'use strict';
+
 angular.module("todoListApp", [])
-.controller('mainCtrl', function($scope) {
-    $scope.helloWorld = function() {
-        console.log("Hello There");
-    }
+.controller('mainCtrl', function($scope, dataService) {
+    
+    $scope.addTodo = function() {
+        var todo = {name: "This is a new todo."};
+//        $scope.todos.push(todo);
+        $scope.todos.unshift(todo);//unshift add element at the begining of the list
+    };
+    
+    //$scope.todo = dataService.getTodos; This won't work because $scope.todo is created empty before the asynchronous invocation has the response from the servive.
+    // We have to create a callback method:
+    dataService.getTodos(function(response) {
+       console.log(response.data);
+       $scope.todos = response.data;//We attach the response to todos
+    });
+    
+    $scope.deleteTodo = function(todo, $index) {
+        dataService.deleteTodo(todo);
+        $scope.todos.splice($index, 1);
+    };
+    
+    $scope.saveTodo = function(todo) {
+      dataService.saveTodo(todo);
+    };
 })
 //prototypical inheritance
 // Using ng-inspector, I see that there are now three scopes. There's the root scope, the main controller scope, and the cool controller scope.
@@ -22,6 +43,24 @@ angular.module("todoListApp", [])
         console.log("This is not the main Controller");
     }
 })
-.service('dataService', function() {
+.service('dataService', function($http) {
+    /* this.getTodos = $http.get('mock/todos.json')
+        .then(function(response) {
+       //The then method is used to execute code after a response has been received from the server. The first parameter in then is going 
+       //to be the callback function that's executed when a successful response is received.
+        console.log(response.data);
+        return response.data;
+    })*/
+    this.getTodos = function(callback) {
+        $http.get('mock/todos.json').then(callback);
+    };
+    
+    this.deleteTodo = function(todo) {
+      console.log("The " + todo.name + " has been deleted!");      
+    };
+    
+    this.saveTodo = function(todo) {
+      console.log("The " + todo.name + " was saved!");
+    };  
     
 });
