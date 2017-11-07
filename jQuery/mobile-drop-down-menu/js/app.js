@@ -4,7 +4,7 @@
 //Create select and append menu
 var $select = $("<select></select>");
 $("#menu").append($select);
-$("#menu").append('ass');
+
 console.log($select);
 //Cycle over menu links
 $("#menu a").each(function() {
@@ -12,7 +12,13 @@ $("#menu a").each(function() {
     //Create an option
     var $option = $("<option></option>");
     
-    $option.val($anchor.attr('val'));
+    //Deal with selected options depending on current page
+    if($($anchor).parent().hasClass('selected')) {
+        $option.prop('selected', true);
+    }
+    
+    //Option's value is the href
+    $option.val($anchor.attr('href'));    
     
     //option's text is the text of link
     $option.text($anchor.text());
@@ -20,11 +26,8 @@ $("#menu a").each(function() {
     $select.append($option);
 });
     
-//Create a button
-var $button = $();
-$("menu").append("<input>Go</input>");
-
-$button.click(function() {
+//Bind change listener to the select
+$select.change(function() {
    //Go to the select's current location
     window.location = $select.val();
 });
