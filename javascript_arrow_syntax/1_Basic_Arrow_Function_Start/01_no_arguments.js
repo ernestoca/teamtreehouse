@@ -12,12 +12,15 @@ function sayName() {
     console.log(message);
 }
 //Function Expresion
-var sayName = function() {
+const sayName = function() {
     const message = "My name is " + name;
     console.log(message);
 }
 //Function Arrow 
-
+const sayNameArrow = () => {
+    const message = "My name is " + name;
+    console.log(message);
+}
 
 function sayBye() {
   console.log("Bye " + name);  
