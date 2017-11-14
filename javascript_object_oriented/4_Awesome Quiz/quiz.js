@@ -8,7 +8,7 @@ Quiz.prototype.getCurrentQuestion = function() {
     return this.questions[this.currentQuestionIndex];
 }
 
-Quiz.prototype.gues = function() {
+Quiz.prototype.guess = function() {
     if(this.getCurrentQuestion().isCorrectAnswer) {
            this.score ++;
     }
@@ -16,6 +16,5 @@ Quiz.prototype.gues = function() {
 }
 
 Quiz.prototype.hasEnded = function() {
-    return this.currentQuestionIndex >= this.questions.length;
-       
+    return this.currentQuestionIndex >= this.questions.length;       
 }
